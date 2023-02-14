@@ -1,0 +1,133 @@
+# SPA Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spa-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spa-frontend
+  template:
+    metadata:
+      labels:
+        app: spa-frontend
+    spec:
+      containers:
+        - name: spa-frontend
+          image: <spa-frontend-image>
+          ports:
+            - containerPort: 80
+
+# SPA Frontend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: spa-frontend
+spec:
+  selector:
+    app: spa-frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+# API Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-backend
+  template:
+    metadata:
+      labels:
+        app: api-backend
+    spec:
+      containers:
+        - name: api-backend
+          image: <api-backend-image>
+          ports:
+            - containerPort: 8080
+
+# API Backend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-backend
+spec:
+  selector:
+    app: api-backend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+# Postgres Cluster Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-cluster
+  template:
+    metadata:
+      labels:
+        app: postgres-cluster
+    spec:
+      containers:
+        - name: postgres-cluster
+          image: <postgres-cluster-image>
+          ports:
+            - containerPort: 5432
+
+# Postgres Cluster Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-cluster
+spec:
+  selector:
+    app: postgres-cluster
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+
+# S3 Bucket Persistent Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: s3-bucket
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+# External Data Provider Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-data-provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: external-data-provider
+  template:
+    metadata:
+      labels:
+        app: external-data-provider
+    spec:
+      containers:
