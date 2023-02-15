@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sequence diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true});</script>
+</head>
+<body>
+  <div class="mermaid">
+    sequenceDiagram
+      Title: System Deployment in Kubernetes
+
+      User ->> Kubernetes: Deploy SPA Frontend Component
+      Kubernetes ->> SPA Frontend: Deployment Started
+      Kubernetes ->> SPA Frontend: Container Pods Created
+      Kubernetes ->> SPA Frontend: Service Created
+
+      User ->> Kubernetes: Deploy API Backend Component
+      Kubernetes ->> API Backend: Deployment Started
+      Kubernetes ->> API Backend: Container Pods Created
+      Kubernetes ->> API Backend: Service Created
+
+      User ->> Kubernetes: Deploy Postgres Cluster
+      Kubernetes ->> Postgres Cluster: Deployment Started
+      Kubernetes ->> Postgres Cluster: StatefulSet Created
+      Kubernetes ->> Postgres Cluster: Persistent Volumes Created
+
+      User ->> Kubernetes: Deploy S3 Bucket
+      Kubernetes ->> S3 Bucket: Deployment Started
+
+      User ->> Kubernetes: Deploy External Data Provider
+      Kubernetes ->> External Data Provider: Deployment Started
+
+      User ->> Kubernetes: Run SQL Script for Initializing the Database
+      Kubernetes ->> SQL Script: Job Started
+      Kubernetes ->> SQL Script: Job Completed
+
+      User ->> Kubernetes: Run Binary for Creating Fixtures
+      Kubernetes ->> Binary: Task Started
+      Kubernetes ->> Binary: Task Completed
+
+      Kubernetes ->> User: System Deployment Completed
+  </div>
+</body>
+</html>
